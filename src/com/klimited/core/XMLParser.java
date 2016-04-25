@@ -52,13 +52,13 @@ public class XMLParser {
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field f : fields) {
             if (isNativeObject(f)) {
-                Element[] val = getData(f, doc);
+                Element[] val = getData(f, doc.getDocumentElement().getElementsByTagName(f.getName()));
                 if (val != null && val.length > 0) {
                     putValue(f, obj, val);
                 }
             } else {
                 if (f.getType().isArray()) {
-                    Element[] elements = getData(f, doc);
+                    Element[] elements = getData(f, doc.getDocumentElement().getElementsByTagName(f.getName()));
                     Object[] tmpObject = (Object[]) Array.newInstance(f.getType().getComponentType(), elements.length);
                     for (int i = 0; i < Arrays.asList(tmpObject).size(); i++) {
                         tmpObject[i] = getNodeObject(doc, f.getType().getComponentType().newInstance());
@@ -73,8 +73,7 @@ public class XMLParser {
         return obj;
     }
 
-    private Element[] getData(Field f, Document doc) {
-        NodeList list = doc.getDocumentElement().getElementsByTagName(f.getName());
+    private Element[] getData(Field f, NodeList list) {
         Element[] e = new Element[list.getLength()];
         for (int i = 0; i < list.getLength(); i++) {
             e[i] = (Element) list.item(i);
@@ -92,7 +91,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.setChar(obj, (((Element) value[0]).getTextContent()).charAt(0));
+                for (Element e: (Element[]) value) {
+                    f.setChar(obj, e.getTextContent().charAt(0));
+                }
             }
         } else if (type.startsWith("java.lang.Character")) {
             if (f.getType().isArray()) {
@@ -102,7 +103,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.set(obj, (((Element) value[0]).getTextContent()).charAt(0));
+                for (Element e: (Element[]) value) {
+                    f.set(obj, e.getTextContent().charAt(0));
+                }
             }
         } else if (type.startsWith("int")) {
             if (f.getType().isArray()) {
@@ -112,7 +115,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.setInt(obj, Integer.parseInt((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.setInt(obj, Integer.parseInt(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("java.lang.Integer")) {
             if (f.getType().isArray()) {
@@ -122,7 +127,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.set(obj, Integer.parseInt((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.set(obj, Integer.parseInt(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("short")) {
             if (f.getType().isArray()) {
@@ -132,7 +139,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.setShort(obj, Short.parseShort((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.setShort(obj, Short.parseShort(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("java.lang.Short")) {
             if (f.getType().isArray()) {
@@ -142,7 +151,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.set(obj, Short.parseShort((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.set(obj, Short.parseShort(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("long")) {
             if (f.getType().isArray()) {
@@ -152,7 +163,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.setLong(obj, Long.parseLong((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.setLong(obj, Long.parseLong(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("java.lang.Long")) {
             if (f.getType().isArray()) {
@@ -162,7 +175,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.set(obj, Long.parseLong((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.set(obj, Long.parseLong(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("boolean")) {
             if (f.getType().isArray()) {
@@ -172,7 +187,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.setBoolean(obj, Boolean.parseBoolean((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.setBoolean(obj, Boolean.parseBoolean(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("java.lang.Boolean")) {
             if (f.getType().isArray()) {
@@ -182,7 +199,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.set(obj, Boolean.parseBoolean((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.set(obj, Boolean.parseBoolean(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("float")) {
             if (f.getType().isArray()) {
@@ -192,7 +211,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.setFloat(obj, Float.parseFloat((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.setFloat(obj, Float.parseFloat(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("java.lang.Float")) {
             if (f.getType().isArray()) {
@@ -202,7 +223,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.set(obj, Float.parseFloat((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.set(obj, Float.parseFloat(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("double")) {
             if (f.getType().isArray()) {
@@ -212,7 +235,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.setDouble(obj, Double.parseDouble((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.setDouble(obj, Double.parseDouble(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("java.lang.Double")) {
             if (f.getType().isArray()) {
@@ -222,7 +247,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.set(obj, Double.parseDouble((((Element) value[0]).getTextContent())));
+                for (Element e: (Element[]) value) {
+                    f.set(obj, Double.parseDouble(e.getTextContent()));
+                }
             }
         } else if (type.startsWith("java.lang.String")) {
             if (f.getType().isArray()) {
@@ -232,7 +259,9 @@ public class XMLParser {
                 }
                 f.set(obj, ch);
             } else {
-                f.set(obj, (((Element) value[0]).getTextContent()));
+                for (Element e: (Element[]) value) {
+                    f.set(obj, e.getTextContent());
+                }
             }
         }
         return obj;
