@@ -269,36 +269,36 @@ public class XMLParser {
 
     private boolean isNativeObject(Field f) {
         String type = f.getType().getCanonicalName();
-        if (type.startsWith("char")) {
+        if (type.startsWith(char.class.getName())) {
             return true;
-        } else if (type.startsWith("java.lang.Character")) {
+        } else if (type.startsWith(Character.class.getName())) {
             return true;
-        } else if (type.startsWith("int")) {
+        } else if (type.startsWith(int.class.getName())) {
             return true;
-        } else if (type.startsWith("java.lang.Integer")) {
+        } else if (type.startsWith(Integer.class.getName())) {
             return true;
-        } else if (type.startsWith("short")) {
+        } else if (type.startsWith(short.class.getName())) {
             return true;
-        } else if (type.startsWith("java.lang.Short")) {
+        } else if (type.startsWith(Short.class.getName())) {
             return true;
-        } else if (type.startsWith("long")) {
+        } else if (type.startsWith(long.class.getName())) {
             return true;
-        } else if (type.startsWith("java.lang.Long")) {
+        } else if (type.startsWith(Long.class.getName())) {
             return true;
-        } else if (type.startsWith("boolean")) {
+        } else if (type.startsWith(boolean.class.getName())) {
             return true;
-        } else if (type.startsWith("java.lang.Boolean")) {
+        } else if (type.startsWith(Boolean.class.getName())) {
             return true;
-        } else if (type.startsWith("float")) {
+        } else if (type.startsWith(float.class.getName())) {
             return true;
-        } else if (type.startsWith("java.lang.Float")) {
+        } else if (type.startsWith(Float.class.getName())) {
             return true;
-        } else if (type.startsWith("double")) {
+        } else if (type.startsWith(double.class.getName())) {
             return true;
-        } else if (type.startsWith("java.lang.Double")) {
+        } else if (type.startsWith(Double.class.getName())) {
             return true;
         } else {
-            return type.startsWith("java.lang.String");
+            return type.startsWith(String.class.getName());
         }
     }
 
