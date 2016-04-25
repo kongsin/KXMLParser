@@ -83,7 +83,7 @@ public class XMLParser {
 
     private Object putValue(Field f, Object obj, Object[] value) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
         String type = f.getType().getCanonicalName();
-        if (type.startsWith("char")) {
+        if (type.startsWith(char.class.getName())) {
             if (f.getType().isArray()) {
                 char[] ch = (char[]) Array.newInstance(char.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -95,7 +95,7 @@ public class XMLParser {
                     f.setChar(obj, e.getTextContent().charAt(0));
                 }
             }
-        } else if (type.startsWith("java.lang.Character")) {
+        } else if (type.startsWith(Character.class.getName())) {
             if (f.getType().isArray()) {
                 Object[] ch = (Object[]) Array.newInstance(Character.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -107,7 +107,7 @@ public class XMLParser {
                     f.set(obj, e.getTextContent().charAt(0));
                 }
             }
-        } else if (type.startsWith("int")) {
+        } else if (type.startsWith(int.class.getName())) {
             if (f.getType().isArray()) {
                 int[] ch = (int[]) Array.newInstance(int.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -119,7 +119,7 @@ public class XMLParser {
                     f.setInt(obj, Integer.parseInt(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("java.lang.Integer")) {
+        } else if (type.startsWith(Integer.class.getName())) {
             if (f.getType().isArray()) {
                 Object[] ch = (Object[]) Array.newInstance(Integer.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -131,7 +131,7 @@ public class XMLParser {
                     f.set(obj, Integer.parseInt(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("short")) {
+        } else if (type.startsWith(short.class.getName())) {
             if (f.getType().isArray()) {
                 short[] ch = (short[]) Array.newInstance(short.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -143,7 +143,7 @@ public class XMLParser {
                     f.setShort(obj, Short.parseShort(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("java.lang.Short")) {
+        } else if (type.startsWith(Short.class.getName())) {
             if (f.getType().isArray()) {
                 Short[] ch = (Short[]) Array.newInstance(Short.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -155,7 +155,7 @@ public class XMLParser {
                     f.set(obj, Short.parseShort(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("long")) {
+        } else if (type.startsWith(long.class.getName())) {
             if (f.getType().isArray()) {
                 long[] ch = (long[]) Array.newInstance(long.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -167,7 +167,7 @@ public class XMLParser {
                     f.setLong(obj, Long.parseLong(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("java.lang.Long")) {
+        } else if (type.startsWith(Long.class.getName())) {
             if (f.getType().isArray()) {
                 Long[] ch = (Long[]) Array.newInstance(Long.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -179,7 +179,7 @@ public class XMLParser {
                     f.set(obj, Long.parseLong(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("boolean")) {
+        } else if (type.startsWith(boolean.class.getName())) {
             if (f.getType().isArray()) {
                 boolean[] ch = (boolean[]) Array.newInstance(boolean.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -191,7 +191,7 @@ public class XMLParser {
                     f.setBoolean(obj, Boolean.parseBoolean(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("java.lang.Boolean")) {
+        } else if (type.startsWith(Boolean.class.getName())) {
             if (f.getType().isArray()) {
                 Boolean[] ch = (Boolean[]) Array.newInstance(Boolean.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -203,7 +203,7 @@ public class XMLParser {
                     f.set(obj, Boolean.parseBoolean(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("float")) {
+        } else if (type.startsWith(float.class.getName())) {
             if (f.getType().isArray()) {
                 float[] ch = (float[]) Array.newInstance(float.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -215,7 +215,7 @@ public class XMLParser {
                     f.setFloat(obj, Float.parseFloat(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("java.lang.Float")) {
+        } else if (type.startsWith(Float.class.getName())) {
             if (f.getType().isArray()) {
                 Float[] ch = (Float[]) Array.newInstance(Float.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -227,7 +227,7 @@ public class XMLParser {
                     f.set(obj, Float.parseFloat(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("double")) {
+        } else if (type.startsWith(double.class.getName())) {
             if (f.getType().isArray()) {
                 double[] ch = (double[]) Array.newInstance(double.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -239,7 +239,7 @@ public class XMLParser {
                     f.setDouble(obj, Double.parseDouble(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("java.lang.Double")) {
+        } else if (type.startsWith(Double.class.getName())) {
             if (f.getType().isArray()) {
                 Double[] ch = (Double[]) Array.newInstance(Double.class, value.length);
                 for (int i = 0; i < value.length; i++) {
@@ -251,7 +251,7 @@ public class XMLParser {
                     f.set(obj, Double.parseDouble(e.getTextContent()));
                 }
             }
-        } else if (type.startsWith("java.lang.String")) {
+        } else if (type.startsWith(String.class.getName())) {
             if (f.getType().isArray()) {
                 String[] ch = (String[]) Array.newInstance(String.class, value.length);
                 for (int i = 0; i < value.length; i++) {
