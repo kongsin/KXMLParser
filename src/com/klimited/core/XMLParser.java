@@ -5,11 +5,15 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import com.klimited.example.Address;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -53,9 +57,17 @@ public class XMLParser {
                     putValue(f, obj, val);
                 }
             } else {
-                Object tmpObject = f.getType().newInstance();
-                getNodeObject(doc, tmpObject);
-                f.set(obj, tmpObject);
+                if (f.getType().isArray()) {
+                    Element[] elements = getData(f, doc);
+                    Object[] tmpObject = (Object[]) Array.newInstance(f.getType().getComponentType(), elements.length);
+                    for (int i = 0; i < Arrays.asList(tmpObject).size(); i++) {
+                        tmpObject[i] = getNodeObject(doc, f.getType().getComponentType().newInstance());
+                    }
+                    f.set(obj, tmpObject);
+                } else {
+                    Object tmpObject = getNodeObject(doc, f.getType().newInstance());
+                    f.set(obj, tmpObject);
+                }
             }
         }
         return obj;
