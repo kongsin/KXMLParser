@@ -44,7 +44,11 @@ public class MainClass {
         try {
             MainClass m = new MainClass();
             MyObj obj = (MyObj) new XMLParser().fromXml(m.xml, new MyObj());
-            System.out.println(new XMLParser().toXML(obj));
+            //System.out.println(new XMLParser().toXML(obj));
+            System.out.println("name : "+obj.name);
+            System.out.println("last name : "+obj.lastName);
+            System.out.println("Address : "+obj.address.district);
+            System.out.println("name : "+obj.address.zipCode);
         } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }
