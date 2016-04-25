@@ -23,6 +23,11 @@ public class MainClass {
             + "<zipCode>37000</zipCode>"
             + "<homeAddress>31/8 kudpladuk ,meung</homeAddress>"
             + "</Address>"
+            + "<Address>"
+            + "<district>Ubon Ratchathani</district>"
+            + "<zipCode>10013</zipCode>"
+            + "<homeAddress>115/8 naimeung ,meung</homeAddress>"
+            + "</Address>"
             + "<age>24</age>"
             + "<a>24</a>"
             + "<b>24</b>"
@@ -44,7 +49,13 @@ public class MainClass {
         try {
             MainClass m = new MainClass();
             MyObj obj = (MyObj) new XMLParser().fromXml(m.xml, new MyObj());
-            System.out.println(new XMLParser().toXML(obj));
+            //System.out.println(new XMLParser().toXML(obj));
+            for (int i = 0; i < obj.Address.length; i++) {
+                System.out.println("name : "+obj.name);
+                System.out.println("last name : "+obj.lastName);
+                System.out.println("Address : "+obj.Address[i].district);
+                System.out.println("name : "+obj.Address[i].zipCode);
+            }
         } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }

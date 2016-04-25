@@ -12,7 +12,7 @@ package com.klimited.example;
 public class MyObj {
    public String name;
    public String lastName;
-   public Address address;
+   public Address[] Address;
    public Double age;
    public boolean sex;
    public int a;
