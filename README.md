@@ -1,5 +1,5 @@
 # KXMLParser
-The library for map XML to an object and convert XML to an object
+The library for map XML to an object and convert object to XML
 
 ### There have a simple XML data
 ```
