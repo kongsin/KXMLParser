@@ -34,7 +34,7 @@ public class XMLParser {
             ByteArrayInputStream input = new ByteArrayInputStream(xmlStringBuilder.toString().getBytes("UTF-8"));
             Document doc = xmlResource.parse(input);
             doc.getDocumentElement().normalize();
-            getNodeObject(doc, obj);
+            getNodeObject(doc.getDocumentElement(), obj);
             return obj;
         } catch (ParserConfigurationException | SAXException ex) {
             Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
@@ -48,24 +48,23 @@ public class XMLParser {
         }
     }
 
-    private Object getNodeObject(Document doc, Object obj) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
+    private Object getNodeObject(Element val, Object obj) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field f : fields) {
             if (isNativeObject(f)) {
-                Element[] val = getData(f, doc.getDocumentElement().getElementsByTagName(f.getName()));
-                if (val != null && val.length > 0) {
+                if (val != null) {
                     putValue(f, obj, val);
                 }
             } else {
                 if (f.getType().isArray()) {
-                    Element[] elements = getData(f, doc.getDocumentElement().getElementsByTagName(f.getName()));
+                    Element[] elements = getData(val.getElementsByTagName(f.getName()));
                     Object[] tmpObject = (Object[]) Array.newInstance(f.getType().getComponentType(), elements.length);
                     for (int i = 0; i < Arrays.asList(tmpObject).size(); i++) {
-                        tmpObject[i] = getNodeObject(doc, f.getType().getComponentType().newInstance());
+                        tmpObject[i] = getNodeObject(elements[i], f.getType().getComponentType().newInstance());
                     }
                     f.set(obj, tmpObject);
                 } else {
-                    Object tmpObject = getNodeObject(doc, f.getType().newInstance());
+                    Object tmpObject = getNodeObject(val, f.getType().newInstance());
                     f.set(obj, tmpObject);
                 }
             }
@@ -73,7 +72,7 @@ public class XMLParser {
         return obj;
     }
 
-    private Element[] getData(Field f, NodeList list) {
+    private Element[] getData(NodeList list) {
         Element[] e = new Element[list.getLength()];
         for (int i = 0; i < list.getLength(); i++) {
             e[i] = (Element) list.item(i);
@@ -81,185 +80,186 @@ public class XMLParser {
         return e;
     }
 
-    private Object putValue(Field f, Object obj, Object[] value) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
+    private Object putValue(Field f, Object obj, Element value) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
         String type = f.getType().getCanonicalName();
+        Element[] v = getData(value.getElementsByTagName(f.getName()));
         if (type.startsWith(char.class.getName())) {
             if (f.getType().isArray()) {
-                char[] ch = (char[]) Array.newInstance(char.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = ((Element) value[i]).getTextContent().charAt(0);
+                char[] ch = (char[]) Array.newInstance(char.class, v.length);
+                for (int i = 0; i < ch.length; i++) {
+                    ch[i] = v[i].getTextContent().charAt(0);
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.setChar(obj, e.getTextContent().charAt(0));
                 }
             }
         } else if (type.startsWith(Character.class.getName())) {
             if (f.getType().isArray()) {
-                Object[] ch = (Object[]) Array.newInstance(Character.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = ((Element) value[i]).getTextContent().charAt(0);
+                Object[] ch = (Object[]) Array.newInstance(Character.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = v[i].getTextContent().charAt(0);
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.set(obj, e.getTextContent().charAt(0));
                 }
             }
         } else if (type.startsWith(int.class.getName())) {
             if (f.getType().isArray()) {
-                int[] ch = (int[]) Array.newInstance(int.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Integer.parseInt(((Element) value[i]).getTextContent());
+                int[] ch = (int[]) Array.newInstance(int.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Integer.parseInt(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.setInt(obj, Integer.parseInt(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(Integer.class.getName())) {
             if (f.getType().isArray()) {
-                Object[] ch = (Object[]) Array.newInstance(Integer.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Integer.parseInt(((Element) value[i]).getTextContent());
+                Object[] ch = (Object[]) Array.newInstance(Integer.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Integer.parseInt(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.set(obj, Integer.parseInt(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(short.class.getName())) {
             if (f.getType().isArray()) {
-                short[] ch = (short[]) Array.newInstance(short.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Short.parseShort(((Element) value[i]).getTextContent());
+                short[] ch = (short[]) Array.newInstance(short.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Short.parseShort(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.setShort(obj, Short.parseShort(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(Short.class.getName())) {
             if (f.getType().isArray()) {
-                Short[] ch = (Short[]) Array.newInstance(Short.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Short.parseShort(((Element) value[i]).getTextContent());
+                Short[] ch = (Short[]) Array.newInstance(Short.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Short.parseShort(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.set(obj, Short.parseShort(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(long.class.getName())) {
             if (f.getType().isArray()) {
-                long[] ch = (long[]) Array.newInstance(long.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Long.parseLong(((Element) value[i]).getTextContent());
+                long[] ch = (long[]) Array.newInstance(long.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Long.parseLong(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.setLong(obj, Long.parseLong(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(Long.class.getName())) {
             if (f.getType().isArray()) {
-                Long[] ch = (Long[]) Array.newInstance(Long.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Long.parseLong(((Element) value[i]).getTextContent());
+                Long[] ch = (Long[]) Array.newInstance(Long.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Long.parseLong(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.set(obj, Long.parseLong(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(boolean.class.getName())) {
             if (f.getType().isArray()) {
-                boolean[] ch = (boolean[]) Array.newInstance(boolean.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Boolean.parseBoolean(((Element) value[i]).getTextContent());
+                boolean[] ch = (boolean[]) Array.newInstance(boolean.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Boolean.parseBoolean(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.setBoolean(obj, Boolean.parseBoolean(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(Boolean.class.getName())) {
             if (f.getType().isArray()) {
-                Boolean[] ch = (Boolean[]) Array.newInstance(Boolean.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Boolean.parseBoolean(((Element) value[i]).getTextContent());
+                Boolean[] ch = (Boolean[]) Array.newInstance(Boolean.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Boolean.parseBoolean(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.set(obj, Boolean.parseBoolean(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(float.class.getName())) {
             if (f.getType().isArray()) {
-                float[] ch = (float[]) Array.newInstance(float.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Float.parseFloat(((Element) value[i]).getTextContent());
+                float[] ch = (float[]) Array.newInstance(float.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Float.parseFloat(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.setFloat(obj, Float.parseFloat(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(Float.class.getName())) {
             if (f.getType().isArray()) {
-                Float[] ch = (Float[]) Array.newInstance(Float.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Float.parseFloat(((Element) value[i]).getTextContent());
+                Float[] ch = (Float[]) Array.newInstance(Float.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Float.parseFloat(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.set(obj, Float.parseFloat(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(double.class.getName())) {
             if (f.getType().isArray()) {
-                double[] ch = (double[]) Array.newInstance(double.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Double.parseDouble(((Element) value[i]).getTextContent());
+                double[] ch = (double[]) Array.newInstance(double.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Double.parseDouble(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.setDouble(obj, Double.parseDouble(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(Double.class.getName())) {
             if (f.getType().isArray()) {
-                Double[] ch = (Double[]) Array.newInstance(Double.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = Double.parseDouble(((Element) value[i]).getTextContent());
+                Double[] ch = (Double[]) Array.newInstance(Double.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = Double.parseDouble(v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.set(obj, Double.parseDouble(e.getTextContent()));
                 }
             }
         } else if (type.startsWith(String.class.getName())) {
             if (f.getType().isArray()) {
-                String[] ch = (String[]) Array.newInstance(String.class, value.length);
-                for (int i = 0; i < value.length; i++) {
-                    ch[i] = (((Element) value[i]).getTextContent());
+                String[] ch = (String[]) Array.newInstance(String.class, v.length);
+                for (int i = 0; i < v.length; i++) {
+                    ch[i] = (v[i].getTextContent());
                 }
                 f.set(obj, ch);
             } else {
-                for (Element e: (Element[]) value) {
+                for (Element e : v) {
                     f.set(obj, e.getTextContent());
                 }
             }

@@ -10,16 +10,5 @@ package com.klimited.example;
  * @author kongsin
  */
 public class MyObj {
-   public String name;
-   public String lastName;
-   public Address[] Address;
-   public Double age;
-   public boolean sex;
-   public int a;
-   public Integer b;
-   public float c;
-   public Float d;
-   public long e;
-   public Long f;
-   public NSData data;
+   public NSData[] NSData;
 }

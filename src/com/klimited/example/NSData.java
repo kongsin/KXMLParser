@@ -11,8 +11,7 @@ package com.klimited.example;
  * @author kongsin
  */
 public class NSData {
-    public String t;
-    public int u;
+    public char a;
     public Character[] firstAlphabet;
     
 }

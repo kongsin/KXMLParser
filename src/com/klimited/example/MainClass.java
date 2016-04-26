@@ -6,6 +6,7 @@
 package com.klimited.example;
 
 import com.klimited.core.XMLParser;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,28 +17,15 @@ import java.util.logging.Logger;
 public class MainClass {
 
     private String xml = "<MyObj> "
-            + "<name>Kongsin</name>"
-            + "<lastName>Pansansou</lastName>"
-            + "<Address>"
-            + "<district>Amnatcharoen</district>"
-            + "<zipCode>37000</zipCode>"
-            + "<homeAddress>31/8 kudpladuk ,meung</homeAddress>"
-            + "</Address>"
-            + "<Address>"
-            + "<district>Ubon Ratchathani</district>"
-            + "<zipCode>10013</zipCode>"
-            + "<homeAddress>115/8 naimeung ,meung</homeAddress>"
-            + "</Address>"
-            + "<age>24</age>"
-            + "<a>24</a>"
-            + "<b>24</b>"
-            + "<c>24</c>"
-            + "<d>24</d>"
-            + "<e>24</e>"
-            + "<f>24</f>"
             + "<NSData>"
-            + "<t>TT</t>"
-            + "<u>10</u>"
+            + "<a>z</a>"
+            + "<firstAlphabet>k</firstAlphabet>"
+            + "<firstAlphabet>o</firstAlphabet>"
+            + "<firstAlphabet>n</firstAlphabet>"
+            + "<firstAlphabet>g</firstAlphabet>"
+            + "</NSData>"
+            + "<NSData>"
+            + "<a>z</a>"
             + "<firstAlphabet>k</firstAlphabet>"
             + "<firstAlphabet>o</firstAlphabet>"
             + "<firstAlphabet>n</firstAlphabet>"
