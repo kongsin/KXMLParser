@@ -11,7 +11,7 @@ package com.klimited.example;
  */
 public class book {
     public String title;
-    public String author;
+    public String[] author;
     public String year;
     public float price;
 }

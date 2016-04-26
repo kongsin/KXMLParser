@@ -19,6 +19,7 @@ public class MainClass {
             "  <book category=\"children\">\n" +
             "    <title>Harry Potter</title>\n" +
             "    <author>J K. Rowling</author>\n" +
+            "    <author>K. Kongsin</author>\n" +
             "    <year>2005</year>\n" +
             "    <price>29.99</price>\n" +
             "  </book>\n" +
