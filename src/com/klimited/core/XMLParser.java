@@ -327,8 +327,15 @@ public class XMLParser {
                     builder.append("\n");
                 }
             } else {
-                Object tmpObject = _f.get(obj);
-                builder.append(toXML(tmpObject));
+                if (_f.getType().isArray()) {
+                    Object[] data = (Object[]) _f.get(obj);
+                    for (Object o : data) {
+                        builder.append(toXML(o));
+                    }
+                } else {
+                    Object tmpObject = _f.get(obj);
+                    builder.append(toXML(tmpObject));
+                }
             }
         }
         builder.append("\n");
