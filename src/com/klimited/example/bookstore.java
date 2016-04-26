@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.klimited.example;
 
 /**
  *
  * @author kongsin
  */
-public class NSData {
-    public String t;
-    public int u;
-    public Character[] firstAlphabet;
-    
+public class bookstore {
+   public book[] book;
 }

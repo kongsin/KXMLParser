@@ -6,56 +6,42 @@
 package com.klimited.example;
 
 import com.klimited.core.XMLParser;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author kongsin
  */
 public class MainClass {
 
-    String xml = "<MyObj> "
-            + "<name>Kongsin</name>"
-            + "<lastName>Pansansou</lastName>"
-            + "<Address>"
-            + "<district>Amnatcharoen</district>"
-            + "<zipCode>37000</zipCode>"
-            + "<homeAddress>31/8 kudpladuk ,meung</homeAddress>"
-            + "</Address>"
-            + "<Address>"
-            + "<district>Ubon Ratchathani</district>"
-            + "<zipCode>10013</zipCode>"
-            + "<homeAddress>115/8 naimeung ,meung</homeAddress>"
-            + "</Address>"
-            + "<age>24</age>"
-            + "<a>24</a>"
-            + "<b>24</b>"
-            + "<c>24</c>"
-            + "<d>24</d>"
-            + "<e>24</e>"
-            + "<f>24</f>"
-            + "<NSData>"
-            + "<t>TT</t>"
-            + "<u>10</u>"
-            + "<firstAlphabet>k</firstAlphabet>"
-            + "<firstAlphabet>o</firstAlphabet>"
-            + "<firstAlphabet>n</firstAlphabet>"
-            + "<firstAlphabet>g</firstAlphabet>"
-            + "</NSData>"
-            + "</MyObj>";
+    private String xml = "<bookstore>\n" +
+            "  <book category=\"children\">\n" +
+            "    <title>Harry Potter</title>\n" +
+            "    <author>J K. Rowling</author>\n" +
+            "    <author>K. Kongsin</author>\n" +
+            "    <year>2005</year>\n" +
+            "    <price>29.99</price>\n" +
+            "  </book>\n" +
+            "  <book category=\"web\">\n" +
+            "    <title>Learning XML</title>\n" +
+            "    <author>Erik T. Ray</author>\n" +
+            "    <year>2003</year>\n" +
+            "    <price>39.95</price>\n" +
+            "  </book>\n" +
+            "</bookstore>";
 
     public static void main(String[] args) {
         try {
             MainClass m = new MainClass();
-            MyObj obj = (MyObj) new XMLParser().fromXml(m.xml, new MyObj());
-            //System.out.println(new XMLParser().toXML(obj));
-            for (int i = 0; i < obj.Address.length; i++) {
-                System.out.println("name : "+obj.name);
-                System.out.println("last name : "+obj.lastName);
-                System.out.println("Address : "+obj.Address[i].district);
-                System.out.println("name : "+obj.Address[i].zipCode);
-            }
+            bookstore obj = (bookstore) new XMLParser().fromXml(m.xml, new bookstore());
+//            for (book book : obj.book) {
+//                System.out.println(book.title);
+//                System.out.println(book.author);
+//                System.out.println(book.year);
+//                System.out.println(book.price);
+//            }
+            System.out.println(new XMLParser().toXML(obj));
         } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }
