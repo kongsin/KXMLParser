@@ -36,10 +36,12 @@ public class MainClass {
             MainClass m = new MainClass();
             bookstore obj = (bookstore) new XMLParser().fromXml(m.xml, new bookstore());
             for (book book : obj.book) {
-                System.out.println(book.title);
-                System.out.println(book.author);
-                System.out.println(book.year);
-                System.out.println(book.price);
+                System.out.println("TITLE : "+book.title);
+                for (String s : book.author) {
+                    System.out.println("AUTHOR : "+s);
+                }
+                System.out.println("YEAR : "+book.year);
+                System.out.println("PRICE : "+book.price);
             }
             //System.out.println(new XMLParser().toXML(obj));
         } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {

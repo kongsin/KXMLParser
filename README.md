@@ -48,11 +48,14 @@ public class book {
             MainClass m = new MainClass();
             bookstore obj = (bookstore) new XMLParser().fromXml(m.xml, new bookstore());
                         for (book book : obj.book) {
-                            System.out.println(book.title);
-                            System.out.println(book.author);
-                            System.out.println(book.year);
-                            System.out.println(book.price);
+                            System.out.println("TITLE : "+book.title);
+                            for (String s : book.author) {
+                                System.out.println("AUTHOR : "+s);
+                            }
+                            System.out.println("YEAR : "+book.year);
+                            System.out.println("PRICE : "+book.price);
                         }
+                        //System.out.println(new XMLParser().toXML(obj));
         } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -62,13 +65,14 @@ public class book {
 ### Last one is the result
 
 ```
-Harry Potter
-[Ljava.lang.String;@49476842
-2005
-29.99
-Learning XML
-[Ljava.lang.String;@78308db1
-2003
-39.95
+TITLE : Harry Potter
+AUTHOR : J K. Rowling
+AUTHOR : K. Kongsin
+YEAR : 2005
+PRICE : 29.99
+TITLE : Learning XML
+AUTHOR : Erik T. Ray
+YEAR : 2003
+PRICE : 39.95
 
 ```
