@@ -11,33 +11,35 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author kongsin
  */
 public class MainClass {
 
-    private String xml = "<MyObj> "
-            + "<NSData>"
-            + "<a>z</a>"
-            + "<firstAlphabet>k</firstAlphabet>"
-            + "<firstAlphabet>o</firstAlphabet>"
-            + "<firstAlphabet>n</firstAlphabet>"
-            + "<firstAlphabet>g</firstAlphabet>"
-            + "</NSData>"
-            + "<NSData>"
-            + "<a>z</a>"
-            + "<firstAlphabet>k</firstAlphabet>"
-            + "<firstAlphabet>o</firstAlphabet>"
-            + "<firstAlphabet>n</firstAlphabet>"
-            + "<firstAlphabet>g</firstAlphabet>"
-            + "</NSData>"
-            + "</MyObj>";
+    private String xml = "<bookstore>\n" +
+            "  <book category=\"children\">\n" +
+            "    <title>Harry Potter</title>\n" +
+            "    <author>J K. Rowling</author>\n" +
+            "    <year>2005</year>\n" +
+            "    <price>29.99</price>\n" +
+            "  </book>\n" +
+            "  <book category=\"web\">\n" +
+            "    <title>Learning XML</title>\n" +
+            "    <author>Erik T. Ray</author>\n" +
+            "    <year>2003</year>\n" +
+            "    <price>39.95</price>\n" +
+            "  </book>\n" +
+            "</bookstore>";
 
     public static void main(String[] args) {
         try {
             MainClass m = new MainClass();
-            MyObj obj = (MyObj) new XMLParser().fromXml(m.xml, new MyObj());
-            System.out.println(new XMLParser().toXML(obj));
+            bookstore obj = (bookstore) new XMLParser().fromXml(m.xml, new bookstore());
+            for (book book : obj.book) {
+                System.out.println(book.title);
+                System.out.println(book.author);
+                System.out.println(book.year);
+                System.out.println(book.price);
+            }
         } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }

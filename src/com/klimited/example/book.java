@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package com.klimited.example;
 
 /**
- *
  * @author kongsin
  */
-public class MyObj {
-   public NSData[] NSData;
+public class book {
+    public String title;
+    public String author;
+    public String year;
+    public float price;
 }
