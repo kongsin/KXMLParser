@@ -6,6 +6,8 @@
 package com.klimited.example;
 
 import com.klimited.core.XMLParser;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,17 +36,10 @@ public class MainClass {
     public static void main(String[] args) {
         try {
             MainClass m = new MainClass();
-            bookstore obj = (bookstore) new XMLParser().fromXml(m.xml, new bookstore());
-            for (book book : obj.book) {
-                System.out.println("TITLE : "+book.title);
-                for (String s : book.author) {
-                    System.out.println("AUTHOR : "+s);
-                }
-                System.out.println("YEAR : "+book.year);
-                System.out.println("PRICE : "+book.price);
-            }
+            CATALOG catalog = (CATALOG) new XMLParser().fromXml(new URL("http://www.w3schools.com/xml/cd_catalog.xml"), new CATALOG());
+            System.out.println(new XMLParser().toXML(catalog));
             //System.out.println(new XMLParser().toXML(obj));
-        } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
+        } catch (IllegalArgumentException | MalformedURLException | IllegalAccessException | InstantiationException ex) {
             Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
