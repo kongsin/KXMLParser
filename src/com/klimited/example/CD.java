@@ -6,9 +6,14 @@
 package com.klimited.example;
 
 /**
- *
  * @author kongsin
  */
-public class bookstore {
-   public book[] book;
+public class CD {
+    public String TITLE;
+    public String ARTIST;
+    public String COUNTRY;
+    public String COMPANY;
+    public Float PRICE;
+    public Integer YEAR;
+
 }

@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -22,6 +24,25 @@ import org.xml.sax.SAXException;
  */
 
 public class XMLParser {
+    
+    public Object fromXml(URL url, Object obj){
+        try {
+            Scanner scan = new Scanner(url.openStream());
+            String val = "";
+            while (scan.hasNext()) {
+                val += scan.nextLine();
+            }
+            try {
+                return fromXml(val, obj);
+            } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
+                Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
 
     public Object fromXml(String xml, Object obj) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
         try {
