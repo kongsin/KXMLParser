@@ -1,6 +1,11 @@
 # KXMLParser
 The library for map XML to an object and convert XML to an object
 
+### Feature 
+- Map XML to Object
+- Convert Object to XML String
+- Stream XML from URL and map to object
+
 ### There have a simple XML data
 ```
     private String xml = "<bookstore>\n" +
