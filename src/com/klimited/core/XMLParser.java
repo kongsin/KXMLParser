@@ -34,7 +34,7 @@ public class XMLParser {
             }
             try {
                 return fromXml(val, modelClass);
-            } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
+            } catch (IllegalArgumentException ex) {
                 Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -44,7 +44,7 @@ public class XMLParser {
         }
     }
 
-    public <T> T fromXml(String xml, Class<T> modelClass) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
+    public <T> T fromXml(String xml, Class<T> modelClass) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder xmlResource = factory.newDocumentBuilder();
@@ -62,6 +62,9 @@ public class XMLParser {
             Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
             return null;
         }
