@@ -15,5 +15,4 @@ public class CD {
     public String COMPANY;
     public Float PRICE;
     public Integer YEAR;
-
 }

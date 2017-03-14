@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="KXMLParser:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/KXMLParser_jar</output-path>
+    <root id="archive" name="KXMLParser.jar">
+      <element id="module-output" name="KXMLParser" />
+    </root>
+  </artifact>
+</component>

@@ -323,7 +323,7 @@ public class XMLParser {
         }
     }
 
-    public String toXML(Object obj) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
+    public String toXML(Object obj) throws IllegalAccessException {
         Field[] fields = obj.getClass().getDeclaredFields();
         StringBuilder builder = new StringBuilder();
         builder.append("\n");
