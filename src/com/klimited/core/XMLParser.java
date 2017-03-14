@@ -24,8 +24,8 @@ import org.xml.sax.SAXException;
  */
 
 public class XMLParser {
-    
-    public Object fromXml(URL url, Object obj){
+
+    public <T> T fromXml(URL url, Class<T> modelClass){
         try {
             Scanner scan = new Scanner(url.openStream());
             String val = "";
@@ -33,7 +33,7 @@ public class XMLParser {
                 val += scan.nextLine();
             }
             try {
-                return fromXml(val, obj);
+                return fromXml(val, modelClass);
             } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
                 Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -44,17 +44,14 @@ public class XMLParser {
         }
     }
 
-    public Object fromXml(String xml, Object obj) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
+    public <T> T fromXml(String xml, Class<T> modelClass) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder xmlResource = factory.newDocumentBuilder();
-            StringBuilder xmlStringBuilder = new StringBuilder();
-            xmlStringBuilder.append(xml);
-            ByteArrayInputStream input = new ByteArrayInputStream(xmlStringBuilder.toString().getBytes("UTF-8"));
+            ByteArrayInputStream input = new ByteArrayInputStream(xml.getBytes("UTF-8"));
             Document doc = xmlResource.parse(input);
             doc.getDocumentElement().normalize();
-            getNodeObject(doc.getDocumentElement(), obj);
-            return obj;
+            return (T) getNodeObject(doc.getDocumentElement(), modelClass);
         } catch (ParserConfigurationException | SAXException ex) {
             Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -64,31 +61,33 @@ public class XMLParser {
         } catch (IOException ex) {
             Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    private Object getNodeObject(Element val, Object obj) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
-        Field[] fields = obj.getClass().getDeclaredFields();
+    private Object getNodeObject(Element val, Class<?> mObj) throws IllegalArgumentException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+        Object _obj = mObj.newInstance();
+        Field[] fields = mObj.getDeclaredFields();
         for (Field f : fields) {
             if (isNativeObject(f)) {
-                if (val != null) {
-                    putValue(f, obj, val);
-                }
+                putValue(f, _obj, val);
             } else {
                 if (f.getType().isArray()) {
                     Element[] elements = getData(val.getElementsByTagName(f.getName()));
                     Object[] tmpObject = (Object[]) Array.newInstance(f.getType().getComponentType(), elements.length);
                     for (int i = 0; i < Arrays.asList(tmpObject).size(); i++) {
-                        tmpObject[i] = getNodeObject(elements[i], f.getType().getComponentType().newInstance());
+                        tmpObject[i] = getNodeObject(elements[i], f.getType().getComponentType());
                     }
-                    f.set(obj, tmpObject);
+                    f.set(_obj, tmpObject);
                 } else {
-                    Object tmpObject = getNodeObject(val, f.getType().newInstance());
-                    f.set(obj, tmpObject);
+                    Object tmpObject = getNodeObject(val, f.getType().getComponentType());
+                    f.set(_obj, tmpObject);
                 }
             }
         }
-        return obj;
+        return _obj;
     }
 
     private Element[] getData(NodeList list) {
@@ -363,19 +362,15 @@ public class XMLParser {
     }
 
     private String openTag(String tagName) {
-        StringBuilder b = new StringBuilder();
-        b.append("<");
-        b.append(tagName);
-        b.append(">");
-        return b.toString();
+        return "<" +
+                tagName +
+                ">";
     }
 
     private String closeTag(String tagName) {
-        StringBuilder b = new StringBuilder();
-        b.append("</");
-        b.append(tagName);
-        b.append(">");
-        return b.toString();
+        return "</" +
+                tagName +
+                ">";
     }
 
 }

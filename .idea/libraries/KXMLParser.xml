@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="KXMLParser">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/KXMLParser.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
