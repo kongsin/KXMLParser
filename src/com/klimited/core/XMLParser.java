@@ -51,7 +51,7 @@ public class XMLParser {
             ByteArrayInputStream input = new ByteArrayInputStream(xml.getBytes("UTF-8"));
             Document doc = xmlResource.parse(input);
             doc.getDocumentElement().normalize();
-            return (T) getNodeObject(doc.getDocumentElement(), modelClass);
+            return getNodeObject(doc.getDocumentElement(), modelClass);
         } catch (ParserConfigurationException | SAXException ex) {
             Logger.getLogger(XMLParser.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -67,8 +67,8 @@ public class XMLParser {
         }
     }
 
-    private Object getNodeObject(Element val, Class<?> mObj) throws IllegalArgumentException, IllegalAccessException, InstantiationException, ClassNotFoundException {
-        Object _obj = mObj.newInstance();
+    private <T> T getNodeObject(Element val, Class<T> mObj) throws IllegalArgumentException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+        T _obj = mObj.newInstance();
         Field[] fields = mObj.getDeclaredFields();
         for (Field f : fields) {
             if (isNativeObject(f)) {
