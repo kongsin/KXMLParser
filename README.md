@@ -1,46 +1,29 @@
 # KXMLParser
-The library for map XML to an object and convert XML to an object
+Very easy to map xml value into an object!
 
 ### Feature 
 - Map XML to Object
 - Convert Object to XML String
 - Stream XML from URL and map to object
 
-### There have a simple XML data
-```
-    private String xml = "<bookstore>\n" +
-            "  <book category=\"children\">\n" +
-            "    <title>Harry Potter</title>\n" +
-            "    <author>J K. Rowling</author>\n" +
-            "    <author>K. Kongsin</author>\n" +
-            "    <year>2005</year>\n" +
-            "    <price>29.99</price>\n" +
-            "  </book>\n" +
-            "  <book category=\"web\">\n" +
-            "    <title>Learning XML</title>\n" +
-            "    <author>Erik T. Ray</author>\n" +
-            "    <year>2003</year>\n" +
-            "    <price>39.95</price>\n" +
-            "  </book>\n" +
-            "</bookstore>";
-```
-
-### And we have an object for map with XML
+### And we have an object for map with XML just field name the same with XML tag name
 
 ```
-public class bookstore {
-   public book[] book;
+public class CATALOG {
+   public CD[] CD;
 }
 
 ```
 
 ```
 
-public class book {
-    public String title;
-    public String[] author;
-    public String year;
-    public float price;
+public class CD {
+    public String TITLE;
+    public String ARTIST;
+    public String COUNTRY;
+    public String COMPANY;
+    public Float PRICE;
+    public Integer YEAR;
 }
 
 ```
@@ -48,36 +31,29 @@ public class book {
 ### Try to map XML to object
 
 ```
-
-        try {
-            MainClass m = new MainClass();
-            bookstore obj = (bookstore) new XMLParser().fromXml(m.xml, new bookstore());
-                        for (book book : obj.book) {
-                            System.out.println("TITLE : "+book.title);
-                            for (String s : book.author) {
-                                System.out.println("AUTHOR : "+s);
-                            }
-                            System.out.println("YEAR : "+book.year);
-                            System.out.println("PRICE : "+book.price);
-                        }
-                        //System.out.println(new XMLParser().toXML(obj));
-        } catch (IllegalArgumentException | IllegalAccessException | InstantiationException ex) {
-            Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+       try {
+            CATALOG catalog = new XMLParser().fromXml(new URL("https://www.w3schools.com/xml/cd_catalog.xml"), CATALOG.class);
+            for (CD cd : catalog.CD) {
+                System.out.println(cd.TITLE);
+                System.out.println(cd.ARTIST);
+                System.out.println(cd.COMPANY);
+                System.out.println(cd.COUNTRY);
+                System.out.println(cd.YEAR);
+                System.out.println(cd.PRICE);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
-
 ```
 
-### Last one is the result
+### The result from the example XML
 
 ```
-TITLE : Harry Potter
-AUTHOR : J K. Rowling
-AUTHOR : K. Kongsin
-YEAR : 2005
-PRICE : 29.99
-TITLE : Learning XML
-AUTHOR : Erik T. Ray
-YEAR : 2003
-PRICE : 39.95
+Empire Burlesque
+Bob Dylan
+Columbia
+USA
+1985
+10.9
 
 ```
