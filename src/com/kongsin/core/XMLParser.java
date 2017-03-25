@@ -1,4 +1,4 @@
-package com.klimited.core;
+package com.kongsin.core;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

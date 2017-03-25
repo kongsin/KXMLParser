@@ -3,14 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.klimited.example;
+package com.kongsin.example;
 
-import com.klimited.core.XMLParser;
+import com.kongsin.core.XMLParser;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author kongsin
